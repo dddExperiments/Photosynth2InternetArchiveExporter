@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+		<title>Gallery viewer</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" type="text/css" href="css/PS2PacketPlayer.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/master.css" />
+		<style type="text/css">
+			body, html {
+				touch-action: auto;
+			}
+			body {
+				font-family: Segoe UI;
+				font-weight: normal;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			header {
+				margin-top: 15px;
+				margin-left: 25px;
+				margin-bottom: 20px;
+			}
+
+			#list-container {
+
+			}
+
+			#list-container .card {
+				background-color: #0F100F;
+				border: 1px solid #0F100F;
+    			width: 385px;
+    			height: 150px;
+    			padding: 5px;
+    			border-radius: 5px;
+    			color: #bababa;
+    			margin: 5px;
+    			float: left;
+    			position: relative;
+			}
+
+			#list-container .card .thumb {
+				cursor: pointer;
+			}
+
+			#list-container .card .title {
+				position: absolute;
+				top: 5px;
+				left: 163px;
+				font-size: 15px;
+				color: #b4e800;
+			}
+
+			#list-container .card .second_line {
+				position: absolute;
+				top: 25px;
+    			left: 163px;
+    			font: 14px "Segoe UI",Arial,Helvetica,sans-serif;
+			}
+
+			#list-container .card .second_line .username {
+				color: #b4e800;
+			}
+
+			#list-container .card .third_line {
+				position: absolute;
+				top: 45px;
+    			left: 163px;
+    			font: 14px "Segoe UI",Arial,Helvetica,sans-serif;
+			}
+
+			#list-container .card .third_line img {
+				vertical-align: middle;
+				padding-right: 2px;
+			}
+
+			#list-container .card .fourth_line {
+				position: absolute;
+				bottom: 5px;
+    			left: 163px;
+    			font: 16px "Segoe UI",Arial,Helvetica,sans-serif;
+			}
+
+			#list-container .card .views {
+				position: absolute;
+				bottom: 5px;
+				right: 10px;
+			}
+
+		</style>
+		
+		<script src="js/PS2API.min.js"></script>
+		<script src="js/PS2PacketPlayer.min.js"></script>
+	    <script type="text/javascript">document.documentElement.className = document.documentElement.className.replace('no-js', '')</script>
+	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	    <script type="text/javascript" src="js/underscore-min.js"></script>
+
+		<script type="text/javascript">
+		    Microsoft = window.Microsoft || {};
+		    Microsoft.Photosynth = Microsoft.Photosynth || {};
+		    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+		</script>
+
+		<script type="text/javascript" src="js/master.js"></script>		
+	</head>
+
+	<body>
+
+		<header>
+		    <nav class="cf">
+		        <div id="header-left-nav">
+		            <h1 id="logo">
+		                <a class="level1" href="index.html" tabindex="-1"><i class="ps-sq-icon">&nbsp;</i></a>Photosynth&nbsp;
+		            </h1>
+		            
+		            <ul class="psc-default-pulldown-content cf">
+		                <li><a href="about.html">About</a></li>
+		                <li><a href="help.html">Help</a></li>
+		                <li><a href="index.html">Main Site</a></li>
+		            </ul>
+		        
+		        </div>
+		    </nav>
+		</header>		
+
+		<div id="list-container"></div>	
+
+		<script type="text/javascript">
+		
+
+		function displayCollections(collections) {
+			if (collections.length > 0) {
+				console.log(collections);
+
+				var container = document.getElementById("list-container");
+				collections.forEach(function(c) {
+					var card = document.createElement("div");
+					card.setAttribute("class", "card");
+					var img = document.createElement("img");
+					img.className = "thumb";
+					img.title = c.name;
+					img.width = 150;
+					img.height = 150;
+					img.setAttribute("src", c.thumb);
+					img.addEventListener("click", function(e) {
+						window.location.href = "view_page_" +  c.guid + ".html";
+					});
+
+					/*
+					Layout:
+					-------
+					          <span>title
+					THUMBNAIL <span>username date
+					          <span>num_favorites num_comments geotag
+					
+							  <span>topology - num_views
+					*/
+
+					var title = document.createElement("span");
+					title.setAttribute("class", "title");
+					title.setAttribute("title", c.title);
+					var title_str = c.name;
+					var title_max_length = 33;
+					if (title_str.length > title_max_length) {
+						title_str = title_str.substr(0, title_max_length-3) + "...";
+					}
+					title.innerHTML = title_str;
+
+					var second_line = document.createElement("span");
+					second_line.setAttribute("class", "second_line");
+					var d = new Date(c.date);
+					second_line.innerHTML = '<span class="username">' + c.username + '</span> &nbsp;&nbsp;&nbsp;' + d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+
+					var third_line = document.createElement("span");
+					third_line.setAttribute("class", "third_line");
+					third_line.innerHTML = '<img src="css/my_list/favorites.png" />' + c.nbFavorites + '&nbsp;&nbsp;<img src="css/my_list/comments.png" />' + c.nbComments + '';
+					if (c.latitude) {
+						third_line.innerHTML += '&nbsp;&nbsp;<img src="css/my_list/geotag.png" />GEOTAG';
+					}
+
+					var fourth_line = document.createElement("span");
+					fourth_line.setAttribute("class", "fourth_line");
+					fourth_line.innerHTML = c.topology;
+
+					var fourth_line_views = document.createElement("div");
+					fourth_line_views.setAttribute("class", "views");
+					fourth_line_views.innerHTML = c.nbViews + " views"; 
+
+					card.appendChild(img);
+					card.appendChild(title);
+					card.appendChild(second_line);
+					card.appendChild(third_line);
+					card.appendChild(fourth_line);
+					card.appendChild(fourth_line_views);
+
+					container.appendChild(card);
+				});
+			}
+		}
+
+		// This is the entry point.
+		navigator.serviceWorker.addEventListener('message', function(event) {
+			if (event.data.cmd == "activated") {
+				OnServiceWorkerReady();
+			} else if (event.data.cmd == "thumbnails_preloaded") {
+				OnThumbnailsPreloaded();
+			} else if (event.data.cmd == "preloaded") {
+				_viewer.load(event.data.guid + "/");
+			}
+		});
+		if (navigator.serviceWorker.controller) {
+			OnServiceWorkerReady();
+		} else {
+			navigator.serviceWorker.register('service_worker.js', {
+					scope: ''
+			});
+		}
+
+		function OnServiceWorkerReady() {
+			console.log("Service worker ready!");
+			navigator.serviceWorker.controller.postMessage({
+				cmd: "preload_thumbnails",
+			});
+		}
+
+		function OnThumbnailsPreloaded() {
+			new PS.Utils.Request("_api_full_list.json", {
+				onComplete: function(xhr) {
+					var json = PS.Utils.tryParse(xhr.responseText);
+					if (json) {
+						displayCollections(PS.API.convertCollections(json.Collections));
+					}
+				}
+			});	
+		}		
+
+		</script>
+
+	</body>
+</html>
+

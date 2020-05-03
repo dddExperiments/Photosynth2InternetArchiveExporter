@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+		<title>Gallery viewer</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" type="text/css" href="css/master.css" />
+		<link rel="stylesheet" type="text/css" href="css/PS2PacketPlayer.min.css" />
+		<style type="text/css">
+			body, html {
+				touch-action: auto;
+			}
+			body {
+				font-family: Segoe UI;
+				font-weight: normal;
+				margin: 0px;
+				padding: 10px;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+
+			header {
+				margin-top: 5px;
+				margin-left: 15px;
+				margin-bottom: 20px;
+			}
+
+			#gray-container {
+				background-color: #333;
+				padding: 50px;
+			}
+
+			#container {
+				width: 800px;
+				height: 600px;
+			}
+
+			#viewer-container {
+				height: 670px;
+				display: inline-block;
+				vertical-align: top;
+			}
+
+			#gallery-container {
+				display: inline-block;
+				overflow-y: auto;
+				width: 800px;
+				height: 700px;
+			}
+
+			#gallery-container .thumb {
+				width: 150px;
+				height: 150px;
+				display: inline-block;
+				margin: 0;
+				padding: 1px;
+				float: left;
+				cursor: pointer;
+			}
+
+			#view_page_link {
+				margin-top: 18px;
+			    color: white;
+			    display: inline-block;
+			    font-size: 20px;
+			    text-transform: none;
+			    text-decoration: underline;
+			}
+
+		</style>
+		
+		<script src="js/PS2API.min.js"></script>
+		<script src="js/PS2PacketPlayer.min.js"></script>
+		
+	    <script type="text/javascript">document.documentElement.className = document.documentElement.className.replace('no-js', '')</script>
+	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	    <script type="text/javascript" src="js/underscore-min.js"></script>
+
+		<script type="text/javascript">
+		    Microsoft = window.Microsoft || {};
+		    Microsoft.Photosynth = Microsoft.Photosynth || {};
+		    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+		</script>
+
+		<script type="text/javascript" src="js/master.js"></script>		
+		
+	</head>
+
+	<body>
+		<header>
+		    <nav class="cf">
+		        <div id="header-left-nav">
+		            <h1 id="logo">
+		                <a class="level1" href="index.html" tabindex="-1"><i class="ps-sq-icon">&nbsp;</i></a>photosynth&nbsp;
+		            </h1>
+		            
+		            <ul class="psc-default-pulldown-content cf">
+		                <li><a href="about.html">About</a></li>
+		                <li><a href="help.html">Help</a></li>
+		                <li><a href="index.html">Main Site</a></li>
+		            </ul>
+		        
+		        </div>
+		    </nav>
+		</header>
+
+		<div id="gray-container">
+			<div id="viewer-container">
+				<div id="container"></div>
+				<a id="view_page_link">View page: </a>	
+			</div>
+			<div id="gallery-container"></div>
+		</div>
+		
+
+		<script type="text/javascript">
+		var _container = document.getElementById("container");
+
+		var _viewer = new Photosynth.PS2Viewer(_container, {
+			width:  800,
+			height: 600,
+			animateSpeed: 1.0,
+			autoStart: false,
+			corsEnabled: false,
+			autoResizeEnabled: false,
+			pathToWorker: "js/PS2PacketPlayer.worker.min.js",
+		});
+
+		function loadSynth(synth_guid) {
+			var view_page_link = document.getElementById("view_page_link");
+			view_page_link.innerText = "View page: " + synth_guid.toUpperCase();
+			view_page_link.href = "view_page_" + synth_guid + ".html";
+			navigator.serviceWorker.controller.postMessage({
+				cmd: "preload",
+				guid: synth_guid
+			});			
+		}
+
+		function displayCollections(collections) {
+			if (collections.length > 0) {
+				loadSynth(collections[0].guid); //load first ps2
+
+				var galleryContainer = document.getElementById("gallery-container");
+				collections.forEach(function(c) {
+					var img = document.createElement("img");
+					img.setAttribute("src", c.thumb);
+					img.className = "thumb";
+					img.title = c.name;
+					img.addEventListener("click", (function() {
+						var guid = c.guid;
+						return function() {
+							loadSynth(guid);
+						}
+					})(), false);
+					galleryContainer.appendChild(img);
+				});
+			}
+		}
+
+		// This is the entry point.
+		navigator.serviceWorker.addEventListener('message', function(event) {
+			if (event.data.cmd == "activated") {
+				OnServiceWorkerReady();
+			} else if (event.data.cmd == "thumbnails_preloaded") {
+				OnThumbnailsPreloaded();
+			} else if (event.data.cmd == "preloaded") {
+				_viewer.load(event.data.guid + "/");
+				_viewer.getInternal().metadataViewer.progressIndicator.setVisible(false);
+			}
+		});
+		if (navigator.serviceWorker.controller) {
+			OnServiceWorkerReady();
+		} else {
+			navigator.serviceWorker.register('service_worker.js', {
+					scope: ''
+			});
+		}
+
+		function OnServiceWorkerReady() {
+			console.log("Service worker ready!");
+			navigator.serviceWorker.controller.postMessage({
+				cmd: "preload_thumbnails",
+			});
+		}
+
+		function OnThumbnailsPreloaded() {
+			new PS.Utils.Request("_api_full_list.json", {
+				onComplete: function(xhr) {
+					var json = PS.Utils.tryParse(xhr.responseText);
+					if (json) {
+						displayCollections(PS.API.convertCollections(json.Collections));
+					}
+				}
+			});	
+		}		
+
+		</script>
+
+	</body>
+</html>

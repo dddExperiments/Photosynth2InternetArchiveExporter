@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+		<title>Service worker cache management</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/master.css" />
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				font-weight: normal;
+				padding: 15px;
+				padding-left: 25px;
+			}
+
+			h1 {
+				font-weight: normal;
+				font-size: 30px;
+
+			}
+			h3 {
+				margin: 0;
+				padding: 0;
+				margin-bottom: 10px;
+				margin-top: 10px;
+			}
+
+			ul.cache_usage {
+				margin: 0;
+				list-style-type: square;
+				margin-left: 20px
+			}
+
+			ul.cache_usage li {
+				margin-top: 20px;
+			}
+
+
+			button, button:hover {
+				padding: 4px 20px 4px 20px;
+				color: black;
+				background-color: #08B492;
+			}
+
+			button:hover {
+				background-color: #76F0C5;
+			}
+
+			#total_cache_usage {
+				font-weight: bold;
+			}
+
+
+		</style>
+	    <script type="text/javascript">document.documentElement.className = document.documentElement.className.replace('no-js', '')</script>
+	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	    <script type="text/javascript" src="js/underscore-min.js"></script>
+
+		<script type="text/javascript">
+		    Microsoft = window.Microsoft || {};
+		    Microsoft.Photosynth = Microsoft.Photosynth || {};
+		    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+		</script>
+
+		<script type="text/javascript" src="js/master.js"></script>		
+	</head>
+
+	<body>
+
+		<header>
+		    <nav class="cf">
+		        <div id="header-left-nav">
+		            <h1 id="logo">
+		                <a class="level1" href="index.html" tabindex="-1"><i class="ps-sq-icon">&nbsp;</i></a>Photosynth&nbsp;
+		            </h1>
+		            
+		            <ul class="psc-default-pulldown-content cf">
+		                <li><a href="about.html">About</a></li>
+		                <li><a href="help.html">Help</a></li>
+		                <li><a href="index.html">Main Site</a></li>
+		            </ul>
+		        
+		        </div>
+		    </nav>
+		</header>		
+
+		<div class="ps-sq-text-page-content">
+
+		<h1>Service worker cache management</h1>
+		<p>The service worker has <span id="total_cache_usage">0</span> files in it cache.</p>
+		<ul class="cache_usage">
+			<li><span id="general_cache_usage">0</span> files in general cache <button onclick="ClearCache('general');">Clear</button></li>
+			<li><span id="seadragon_cache_usage">0</span> files in high-resolution imagery (seadragon tiles) <button onclick="ClearCache('seadragon');">Clear</button></li>
+		</ul>
+
+		</div>
+
+		<script>
+		function VersionedCacheName(cache_name) {
+			return cache_name + "_cache_v1";
+		}
+		
+		function ClearCache(cache_type) {			
+			// Perform cache clearing.
+			caches.keys().then(function(cache_names) {
+				cache_names.map(function(cache_name) {
+					console.log(cache_name);
+					if (cache_name == VersionedCacheName(cache_type)) {
+						caches.delete(cache_name).then(function() {
+							// Apparently number of files in cache are only updated after reload :-(
+							location.reload();
+						});
+					}
+				})
+			});	
+		}
+
+		function UpdateStats() {
+			UpdateCacheStats(["general", "seadragon"], "total_cache_usage");
+			UpdateCacheStats(["general"], "general_cache_usage");
+			UpdateCacheStats(["seadragon"], "seadragon_cache_usage");		
+		}
+		
+		// Count number of files in the cache and update the html element with the number of files detected.
+		function UpdateCacheStats(input_cache_names, html_id) {
+			var versioned_cache_names = input_cache_names.map(function(cache_name) { return VersionedCacheName(cache_name); });
+			
+			window.caches.keys().then(function(cache_names) {
+				cache_names.filter(function(cache_name) { return versioned_cache_names.indexOf(cache_name) != -1; }).forEach(function(cache_name) {
+				  window.caches.open(cache_name).then(function(cache) {
+					return cache.keys();
+				  }).then(function(requests) {
+					var num_files = requests.length;
+					document.getElementById(html_id).innerHTML = num_files;
+				  });
+				});
+			  });
+		}
+
+		window.addEventListener("load", function() {
+			UpdateStats();
+		});
+		</script>
+	</body>
+</html>

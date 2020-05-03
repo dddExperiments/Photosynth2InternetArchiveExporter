@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+		<title>PS2Viewer page</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				margin: 0px;
+				height: 100%;
+				padding: 0px;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+			#viewer-container {
+				position: relative;
+			}
+
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/PS2PacketPlayer.min.css" />
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript" src="js/PS2PacketPlayer.min.js"></script>
+		<script type="text/javascript" src="js/PS2API.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div id="viewer-container">
+		</div>
+
+		<script type="text/javascript">
+
+		var synth_guid = getUrlParams().guid || "d3a615d8-627e-4554-9926-e2fba0d00a3e";
+		var autoload = true;
+	    if (getUrlParams().autoload != undefined) {
+	        autoload = getUrlParams().autoload == "true";
+	    }
+	    var embed = false;
+	    if (getUrlParams().embed != undefined) {
+	        embed = getUrlParams().embed == "true";
+	    }
+		var autostart = false;
+	    if (getUrlParams().autostart != undefined) {
+	        autostart = getUrlParams().autostart == "true";
+	    }
+
+	    var fallback = false;
+	    if (getUrlParams().fallback != undefined) {
+	        fallback = getUrlParams().fallback == "true";
+	    }
+
+		var _container = document.getElementById("viewer-container");
+
+		var _viewer;
+		var _dataset;
+		var _annotations_viewer;
+
+		function CreateFallbackViewer() {
+			_container.innerHTML = '<video id="video_player" width="1280" height="720" poster="'+synth_guid+'/thumbs/default/poster.jpg" controls></video>';
+			document.getElementById("video_player").src = synth_guid + "/thumbs/default/share.mp4";
+		}
+
+		function CreateWebGLViewer() {
+			//create the viewer
+			_viewer = new Photosynth.PS2Viewer(_container, {
+				width:  window.innerWidth,
+				height: window.innerHeight,
+				animateSpeed: 1.0,
+				autoLoad: autoload,
+				autoStart: autostart,
+				pathToWorker: "js/PS2PacketPlayer.worker.min.js",
+				debugMenuEnabled: true,
+				corsEnabled: false,
+				autoResizeEnabled: true
+			});
+
+			_annotations_viewer = new Photosynth.PS2AnnotationViewer(_viewer, {
+				editEnabled: false,
+				visibleInFullscreen: false
+			});
+
+			_viewer.addEventListener("viewer-built", function(e) {
+				var internal_viewer = _viewer.getInternal();
+				if (embed) {
+					internal_viewer.metadataViewer.setToolbarVisibility(true);
+					internal_viewer.metadataViewer.progressIndicator.setVisible(true);
+					internal_viewer.metadataViewer.setToolbarPosition(0);
+				} else {
+					internal_viewer.metadataViewer.setToolbarVisibility(false);
+					internal_viewer.metadataViewer.progressIndicator.setVisible(false);
+				}
+			});
+
+			_viewer.addEventListener("geometry-loaded", function(e) {
+				parent.postMessage({
+					command: "onGeometryLoaded"
+				}, "*");
+			});
+
+			window.addEventListener('message', function(evt) {
+				var data;
+				try {
+					data = JSON.parse(evt.data);
+				} catch(err) {
+					data = evt.data;
+				}
+				//console.log(data);
+				if (data.command == "setViewerFocus") {
+					if (data.focused) {
+						_viewer.focus();
+					} else {
+						_viewer.blur();
+					}
+				} else if (data.command == "start") {
+					_viewer.play();
+				} else if (data.command == "stop") {
+					_viewer.stop();
+				} else if (data.command == "setToolbarVisibility") {
+					_viewer.getInternal().metadataViewer.setToolbarVisibility(data.isVisible);
+					_viewer.getInternal().metadataViewer.progressIndicator.setVisible(data.isVisible);
+				} else if (data.command == "setAnnotationVisibility") {
+					_annotations_viewer.getInternal().setLayerVisibility(data.isVisible);
+				}
+			});
+
+			// Load PS2 synths.
+			_viewer.load(synth_guid + "/", {
+				debugMenuEnabled: false
+			});
+			
+			// Load annotations.
+			_annotations_viewer.addEventListener("init", function() {
+				fetch(synth_guid + "/metadata.json").then(function(response) {
+					return response.json();
+				}).then(function(json) {
+					if (json && json.annotations && json.annotations.length > 0) {
+						console.log("Loaded " + json.annotations.length + " annotations.");
+						_annotations_viewer.load(json.annotations);
+					}
+				});
+			});
+		}
+
+		navigator.serviceWorker.addEventListener('message', function(event) {
+			if (event.data.cmd == "activated") {
+				OnServiceWorkerReady();
+			} else if (event.data.cmd == "preloaded") {
+				OnSynthPreloaded();
+			}
+		});
+		if (navigator.serviceWorker.controller) {
+			OnServiceWorkerReady();
+		} else {
+			navigator.serviceWorker.register('service_worker.js', {
+	  			scope: ''
+			});
+		}
+
+		function OnServiceWorkerReady() {
+			console.log("ServiceWorker ready!");
+			navigator.serviceWorker.controller.postMessage({
+				cmd: "preload",
+				guid: synth_guid
+			});
+		}	
+
+		function OnSynthPreloaded() {
+			console.log("ServiceWorker is done preloading synth: " + synth_guid + ".");
+
+			// If webgl is not supported, load mp4 video fallback.
+			if (fallback) {
+				CreateFallbackViewer();
+			} else {
+				CreateWebGLViewer();
+			}
+		}
+
+		</script>
+
+	</body>
+</html>

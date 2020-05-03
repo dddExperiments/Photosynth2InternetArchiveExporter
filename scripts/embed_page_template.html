@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js ie6" lang="en-US">
+<![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8" lang="en-US">
+<![endif]-->
+<!--[if IE 9 ]>
+<html class="no-js ie9" lang="en-US">
+<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en-US">
+<!--<![endif]-->
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+    <title><!--PAGE_TITLE--></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="Microsoft, Photosynth, panorama, stitched panorama, panoramic photography, immersive photography, 3D photography, synth, synther, pano, walk, wall, spin, 3D, full 3D, photography, photo, picture, image, camera, Bing, technical preview, tech preview" />
+    <meta name="description" content="Capture places, share them with your friends, publish them to Bing" />
+
+
+    <link rel="stylesheet" type="text/css" href="css/master.css" />
+    <link rel="stylesheet" type="text/css" href="css/embed.css" />
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/getUrlParams.js"></script>
+
+<script type="text/javascript">
+    var autoload = false;
+    if (getUrlParams().autoload != undefined) {
+        autoload = getUrlParams().autoload;
+    }
+
+    var autostart = false;
+    if (getUrlParams().autostart != undefined) {
+        autostart = getUrlParams().autostart == "true";
+    }
+
+    var fallback = false;
+    if (getUrlParams().fallback != undefined) {
+        fallback = getUrlParams().fallback == "true";
+    }    
+
+    Microsoft = window.Microsoft || {};
+    Microsoft.Photosynth = Microsoft.Photosynth || {};
+    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"\/\/photosynth.net\/rest\/v1.0\/","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+</script>
+
+    <script type="text/javascript" src="js/master.js"></script>
+
+    <script type="text/javascript" src="js/PS2PacketPlayer.min.js"></script>
+    <script type="text/javascript">
+        /*JSON_CONTENT*/
+        Microsoft.Photosynth.Page.EmbedPage.PS2PlayerConfig.ViewerShimUrl += "&autoload=" + autoload + "&embed=true&autostart=" + autostart + "&fallback=" + fallback;
+    </script>
+    <script type="text/javascript" src="js/viewer_client.js"></script>
+    <script type="text/javascript" src="js/embed_client.js"></script>
+</head>
+<body class="ps-sq-embed" data-bind="style: { minWidth: Microsoft.Photosynth.Social.EmbedMinWidth + 'px' }">
+    <div id="page-container">
+        <div id="viewer-container">
+            <div id="warning-container"></div>
+            <div id="metadata" data-bind="with: EmbedPage">
+        <div id="metadata-license">
+            <span data-bind="visible: License().value == 'AllRightsReserved'">All Rights Reserved</span>
+            <span data-bind="visible: License().value == 'PublicDomain'">Public Domain</span>
+            <a target="_blank" data-bind="attr: { href: License().link }, visible: License().value.indexOf('CC') >= 0">
+                <i class="psc-copyright ps-sq-cc-cc" data-bind="visible: License().value.indexOf('CC') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-by" data-bind="visible: License().value.indexOf('Attribution') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-nc" data-bind="visible: License().value.indexOf('NonCommercial') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-nd" data-bind="visible: License().value.indexOf('NoDerivatives') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-sa" data-bind="visible: License().value.indexOf('ShareAlike') >= 0"></i>
+            </a>
+        </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        Microsoft.Photosynth.Analytics.sendEvent = function (name) {};
+    </script>
+
+</body>
+
+</html>

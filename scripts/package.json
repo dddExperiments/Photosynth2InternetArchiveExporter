@@ -1,0 +1,11 @@
+{
+  "name": "PhotosynthInternetArchiveExport",
+  "description": "Script to export Photosynth2 content for storing them on the Internet Archive.",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "async": "^2.1.4",
+    "klaw": "^3.0.0",
+    "node-stream-zip": "^1.10.1"
+  }
+}

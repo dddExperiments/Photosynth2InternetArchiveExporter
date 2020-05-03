@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js ie6" lang="en-US">
+<![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8" lang="en-US">
+<![endif]-->
+<!--[if IE 9 ]>
+<html class="no-js ie9" lang="en-US">
+<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en-US">
+<!--<![endif]-->
+<head>
+    <script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+    <title>Photosynth - Capture your world in 3D.</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="Microsoft, Photosynth, panorama, stitched panorama, panoramic photography, immersive photography, 3D photography, synth, synther, pano, walk, wall, spin, 3D, full 3D, photography, photo, picture, image, camera, home page, Bing, technical preview, tech preview" />
+    <meta name="description" content="Capture places, share them with your friends, publish them to Bing" />
+
+    <script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+    <!--This section is for modern app-->
+    <meta name="application-name" content="Photosynth.net" />
+    <meta name="msapplication-tooltip" content="Photosynth" />
+    <meta name="msapplication-TileColor" content="#7D7E7E" />
+    <meta name="msapplication-TileImage" content="images/ui/favicon-144x144.png" />
+
+    <meta property="og:image" content="images/ui/favicon-144x144.png" />
+    
+
+    <link rel="shortcut icon" href="images/ui/favicon.ico" />
+    <link rel="apple-touch-icon" href="images/ui/favicon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/ui/favicon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/ui/favicon-114x114.png">
+
+    
+    <link rel="stylesheet" type="text/css" href="css/master.css" />
+    
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+
+
+    <script type="text/javascript">document.documentElement.className = document.documentElement.className.replace('no-js', '')</script>
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+
+
+<script type="text/javascript">
+    Microsoft = window.Microsoft || {};
+    Microsoft.Photosynth = Microsoft.Photosynth || {};
+    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+</script>
+
+    <script type="text/javascript" src="js/master.js"></script>
+    
+    <script type="text/javascript" src="js/controls_slider.js"></script>
+    <script type="text/javascript">
+        Microsoft.Photosynth.Page.HomePage = { serverDataModel:{"ExploreFilter":"Featured","ExploreFilterFriendlyName":"Featured","CompactPath":"_api_compact_list.json","FeaturedMaxResults":500} };
+    </script>
+    <!-- The entry point is in that file! -->
+    <script type="text/javascript" src="js/home.js"></script>
+
+</head>
+<body class="ps-sq-home">
+    <noscript><div id="no-script">Photosynth site requires JavaScript, please enable JavaScript on your browser.</div></noscript>
+    <div id="page-container">
+            <style type="text/css">
+                .announcement {
+                    background: brown;
+                    text-align: center;
+                    font-size: 150%;
+                    position: absolute;
+                    line-height: 39px;
+                    margin: 0 auto;
+                    padding: 11px 50px 11px 23px;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 1000;
+                }
+
+                .announcement button:active {
+                    outline: 0;
+                }
+
+                .announcement b {
+                    background: url('images/ui/ps-sq-checkmark.png') no-repeat center center;
+                    cursor: pointer;
+                    display: inline-block;
+                    height: 14px;
+                    padding: 4px;
+                    position: absolute;
+                    right: 19px;
+                    top: 18px;
+                    width: 13px;
+                }
+
+                #retirement-message button {
+                    background-color: orange;
+                    color: white;
+                }
+            </style>        
+<header>
+    <nav class="cf">
+        <div id="header-left-nav">
+            <h1 id="logo">
+                <a class="level1" href="" tabindex="-1"><i class="ps-sq-icon">&nbsp;</i></a><a
+                    class="level1 ps-sq-text" href="">Photosynth</a>
+            </h1>
+            
+            <ul class="psc-default-pulldown-content cf">
+                <li><a href="about.html">About</a></li>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="index.html">Main Site</a></li>
+            </ul>
+        
+        </div>
+
+        <div id="header-right-nav"  style="display: none;">
+                <h2><a class="level1" data-bind="attr: { href: $root.signupUrl }">Sign in</a></h2>
+        </div>
+    </nav>
+</header>
+        
+
+
+
+</div>
+
+<div id="bg-image" style="display: none">
+    <div id="bg-image0"></div>
+    <div id="bg-image1"></div>
+    <div class="ps-sq-vignette"></div>
+</div>
+
+<div id="page-header" style="display: none">
+    <h2>Featured</h2>
+</div>
+<div id="slider-div"></div>
+<div data-bind="with: HomePage">
+    <div id="selected-media-content" data-bind="with: Media" style="display: none">
+        <h2 class="nowrap-ellipsize" id="media-title">
+            <a class="level1" data-bind="click: linkClick, text: title, attr: { href: viewUrl }"></a>
+        </h2>
+        <div class="ps-sq-head">
+            <h6 class="ps-sq-create-info">
+                <span data-bind="text: author() !== '...' ? 'by' : ''"></span>
+                <a id="media-owner" data-bind="text: author, attr: { href: authorUrl }"></a>
+            </h6>
+        </div>
+    </div>
+</div>
+
+<div id="chip-div"></div>
+
+<div id="actions-container">
+    <!--
+    <a id="action-upload" href="https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=13&amp;ct=1486343977&amp;rver=6.5.6509.0&amp;wp=MBI_SSL&amp;wreply=https:%2F%2Fphotosynth.net%2Fpreview%2Fupload&amp;lc=1033&amp;id=257769">
+        <span>create your own</span>
+        <i class="psc-default-sprite ps-sq-arrow-white"></i>
+    </a>
+    <a id="action-about" href="preview/about.html">
+        <span>learn more</span>
+        <i class="psc-default-sprite ps-sq-arrow-white"></i>
+    </a>
+    -->
+</div>
+
+
+
+<!-- RD0003FF83ADAC -->
+
+    <input type="hidden" id="refresh">
+</body>
+
+</html>

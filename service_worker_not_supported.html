@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Photosynth on internet archive</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/master.css" />
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				font-weight: normal;
+				padding: 15px;
+				padding-left: 25px;
+			}
+
+			h1 {
+				font-size: 30px;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+			h3 {
+				margin: 0;
+				padding: 0;
+				margin-bottom: 10px;
+				margin-top: 10px;
+				font-size: 20px;
+			}
+
+			ul.browsers {
+				font-size: 15px;
+				opacity: 0.5;
+				list-style-type: square;
+				margin-left: 18px;
+			}
+		</style>
+	    <script type="text/javascript">document.documentElement.className = document.documentElement.className.replace('no-js', '')</script>
+	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	    <script type="text/javascript" src="js/underscore-min.js"></script>
+
+		<script type="text/javascript">
+		    Microsoft = window.Microsoft || {};
+		    Microsoft.Photosynth = Microsoft.Photosynth || {};
+		    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+		</script>
+
+		<script type="text/javascript" src="js/master.js"></script>			
+	</head>
+
+	<body>
+
+		<header>
+		    <nav class="cf">
+		        <div id="header-left-nav">
+		            <h1 id="logo">
+		                <a class="level1" href="index.html" tabindex="-1"><i class="ps-sq-icon">&nbsp;</i></a>Photosynth&nbsp;
+		            </h1>
+		            
+		            <ul class="psc-default-pulldown-content cf">
+		                <li><a href="about.html">About</a></li>
+		                <li><a href="help.html">Help</a></li>
+		                <li><a href="index.html">Main Site</a></li>
+		            </ul>
+		        
+		        </div>
+		    </nav>
+		</header>			
+
+		<img style="margin-left: 50px;" src="images/not_supported/exclamation_mark.png" />
+		<br />
+
+		<h1 style="margin-bottom: 0px;">Your browser is not supported :(</h1>
+		<p style="margin-top: 0px;">It must support <a href="https://caniuse.com/#feat=serviceworkers">ServiceWorker</a> to run this web page.</p>
+		<br />
+		
+		<h3>Alternative browsers:</h3>
+		<ul class="browsers">
+			<li>on iOS: use Safari.</li>
+			<li>on Android: use Google Chrome.</li>
+			<li>on Windows: do not use Internet Explorer.</li>
+			<li>on Linux: use Chromium / Firefox.</li>
+			<li>on macOS: use Safari (or Google Chrome / Firefox).</li>
+		</ul>
+		
+		<br />
+				
+	</body>
+</html>

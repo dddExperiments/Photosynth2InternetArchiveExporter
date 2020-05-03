@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js ie6" lang="en-US">
+<![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8" lang="en-US">
+<![endif]-->
+<!--[if IE 9 ]>
+<html class="no-js ie9" lang="en-US">
+<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en-US">
+<!--<![endif]-->
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <script type="text/javascript" src="js/sw_support_detector.js"></script>
+
+    <title><!--PAGE_TITLE--></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="Microsoft, Photosynth, panorama, stitched panorama, panoramic photography, immersive photography, 3D photography, synth, synther, pano, walk, wall, spin, 3D, full 3D, photography, photo, picture, image, camera, Bing, technical preview, tech preview" />
+    <meta name="description" content="Capture places, share them with your friends, publish them to Bing" />
+
+    <link rel="shortcut icon" href="images/ui/favicon.ico" />
+    <link rel="apple-touch-icon" href="images/ui/favicon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/ui/favicon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/ui/favicon-114x114.png">
+
+    <link rel="stylesheet" type="text/css" href="css/master.css" />
+    <link rel="stylesheet" type="text/css" href="css/view.css" />
+
+    <script type="text/javascript">document.documentElement.className = document.documentElement.className.replace('no-js', '')</script>
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+
+<script type="text/javascript">
+    Microsoft = window.Microsoft || {};
+    Microsoft.Photosynth = Microsoft.Photosynth || {};
+    Microsoft.Photosynth.Page = { MasterPage : { serverDataModel : {"SiteBaseUrl":"\/\/photosynth.net\/preview\/","LegacyBaseUrl":"\/\/photosynth.net\/","RestBaseUrl":"\/\/photosynth.net\/rest\/v1.0\/","ReportAbuseBaseUrl":"https:\/\/support.microsoft.com\/en-us\/getsupport?oaspworkflow=start_1.0.0.0&wfname=capsub&productkey=photosynthabuse&locale=en-us&AbuseURL=","CurrentUser":null,"IsBetaUser":false,"IsModeratorOrAdmin":false} }};
+</script>
+
+    <script type="text/javascript" src="js/master.js"></script>
+    
+    <script type="text/javascript" src="js/controls_slider.js"></script>
+    <script type="text/javascript" src="js/PS2PacketPlayer.min.js"></script>
+    <script type="text/javascript">
+        /*JSON_CONTENT*/
+        /*COMMENTS_CONTENT*/
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var geo_tag = Microsoft.Photosynth.Page.ViewPage.serverDataModel.GeoTag;
+            var map_zoom_level = Microsoft.Photosynth.Page.ViewPage.serverDataModel.MapZoomLevel;
+            if (geo_tag) {
+                var map_link = document.getElementById("metadata-map-tile").parentNode;
+                var zoom = map_zoom_level ? map_zoom_level : 15;
+                map_link.href += "?lat="+geo_tag.Latitude+"&lon="+geo_tag.Longitude+"&zoom="+zoom;
+            }
+        });        
+    </script>
+    <script type="text/javascript" src="js/viewer_client.js"></script>
+    <script type="text/javascript" src="js/view.js"></script>
+
+</head>
+<body class="ps-sq-view">
+    <noscript><div id="no-script">Photosynth site requires JavaScript, please enable JavaScript on your browser.</div></noscript>
+    <div id="page-container">
+        
+<header>
+    <nav class="cf">
+        <div id="header-left-nav">
+            <h1 id="logo">
+                <a class="level1" href="gallery_page.html" tabindex="-1"><i class="ps-sq-icon">&nbsp;</i></a><a
+                    class="level1 ps-sq-text" href="">Photosynth</a>
+            </h1>
+            
+            <ul class="psc-default-pulldown-content cf">
+                <li><a href="about.html">About</a></li>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="index.html">Main Site</a></li>
+            </ul>
+        
+        </div>
+    </nav>
+</header>
+        
+<div id="viewer-container"></div>
+<div id="synth2synth-container"></div>
+<div id="confirmations-container"></div>
+<div id="chrome-up-vignette"></div>
+<div id="fallback-vignette-top" class="ps-sq-fixed-vignette" style="display: none"></div>
+<div id="fallback-vignette-bottom" class="ps-sq-fixed-vignette" style="display: none"></div>
+<div id="metadata-container" data-bind="with: ViewPage" data-psc-minimized="false" data-psc-edit-mode="false">
+    <div id="metadata-top-scroll-line"></div>
+    <div id="metadata-readonly" class="ps-sq-metadata-pane">
+        <div id="metadata-title">
+            <h2 data-bind="html: CollectionTitle().trim(), attr: { title: CollectionTitle }, css: { 'ps-sq-show-less': !MoreCollectionTitle() }"></h2>
+            <h2 class="psc-default ps-sq-show-more" data-bind="click: ToggleMoreCollectionTitle, visible: CanToggleMoreCollectionTitle() && MoreCollectionTitle()">...</h2>
+        </div>
+        <div id="metadata-date-author">
+            <h6>
+                <span data-bind="text: UploadDateString"></span> by <a data-bind="text: OwnerUsername, attr: { href: OwnerUserProfileUrl }"></a>
+                <b data-bind="click: toggleFollow, visible: followModel.allowFollow, attr: { class: followModel.followButtonClass, title: (followModel.isFollowing() ? 'Unfollow ' : 'Follow ') + OwnerUsername() }"
+                   tabindex="0"></b>
+            </h6>
+        </div>
+
+        <div id="metadata-counts">
+            <h6 class="cf">
+                     <i class="psc-default-sprite ps-sq-featured"></i>
+                    <span>Featured</span>
+                    <span class="ps-sq-divider">:</span>
+                <i class="psc-default-sprite ps-sq-views-small"></i>
+                <span data-bind="text: Viewings() + ' Views'"></span>
+                <span class="ps-sq-divider">:</span>
+                <span data-bind="text: Topology"></span>
+                <span class="ps-sq-divider">:</span>
+                <span data-bind="text: ImageCount() + ' Photos'"></span>
+            </h6>
+            <h6 data-bind="visible: OmittedCount() > 0">
+                <a id="show-warnings" class="level3" href="#"><span data-bind="text: OmittedCount"></span>&nbsp;Omitted</a>
+            </h6>
+        </div>
+        <div id="metadata-share" class="cf">
+            <b class="psc-default-sprite ps-sq-facebook" title="Share on Facebook" tabindex="0">
+            </b><b class="psc-default-sprite ps-sq-twitter" title="Share on Twitter" tabindex="0">
+            </b><b class="psc-default-sprite ps-sq-tumblr" title="Share on Tumblr" tabindex="0">
+            </b><b class="psc-default-sprite ps-sq-link" title="Copy the link to this synth" tabindex="0">
+            </b><b class="psc-default-sprite ps-sq-embed" title="Embed this synth in a blog" tabindex="0"></b>
+            <div id="share-url-pane" class="ps-sq-pane" style="display: none" data-psc-popped="false">
+                <input id="share-url" type="text" class="psc-default" readonly="readonly" />
+            </div>
+
+            <div id="embed-pane" class="ps-sq-pane" style="display: none" data-psc-popped="false">
+                <div id="embed-html" class="psc-default-scrollbar"><p id="embed-raw"></p></div>
+                <button id="embed-toggle" class="psc-default ps-sq-show-more"><span id="toggle-label">Show Options</span></button>
+                <div id="embed-options">
+                    <span>Synth Size</span>
+                    <input id="embed-width" type="text" class="psc-default ps-sq-embed-dimensions" value="" />X<input id="embed-height" type="text" class="psc-default ps-sq-embed-dimensions" value="" /><br />
+                    <div class="ps-sq-embed-toggle">
+                        <input id="delay-download-toggle" type="checkbox" class="psc-default" /><label for="delay-download-toggle">Delay Download</label>
+                    </div>
+                    <div class="ps-sq-embed-toggle">
+                        <input id="auto-play-toggle" type="checkbox" class="psc-default" /><label for="auto-play-toggle">Automatically Play</label>
+                    </div>
+                    <div class="ps-sq-embed-toggle">
+                        <input id="show-caption-toggle" type="checkbox" class="psc-default" /><label for="show-caption-toggle">Show Caption Underneath</label>
+                    </div>
+                    <div class="ps-sq-embed-toggle">
+                        <input id="show-annotations-toggle" type="checkbox" class="psc-default" /><label for="show-annotations-toggle">Show highlights</label>
+                    </div>
+                    <div class="ps-sq-embed-toggle">
+                        <input id="show-promo-toggle" type="checkbox" class="psc-default" /><label for="show-promo-toggle">Show <span class="normal-text">Photosynth</span> teaser</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="metadata-description">
+            <p data-bind="html: Microsoft.Photosynth.Util.anchorLinks(CollectionDescription()).trim(), css: { 'ps-sq-show-less': !MoreCollectionDescription() }"></p>
+            <button class="psc-default ps-sq-show-more" data-bind="click: ToggleMoreCollectionDescription, visible: CanToggleMoreCollectionDescription() && MoreCollectionDescription()">Show More</button>
+            <button class="psc-default ps-sq-show-less" data-bind="click: ToggleMoreCollectionDescription, visible: CanToggleMoreCollectionDescription() && !MoreCollectionDescription()">Show Less</button>
+        </div>
+        <div id="metadata-map" data-bind="visible: GeoTag() != null">
+            <a href="my_map_page.html"><img id="metadata-map-tile" data-bind="attr: { src: MapTileUrl }" /></a>
+            <p class="psc-sq-metadata-map-trailer" data-bind="text: MetadataMapTrailerText"></p>
+        </div>
+        <div id="metadata-license">
+            <span data-bind="visible: License().value == 'AllRightsReserved'">All Rights Reserved</span>
+            <span data-bind="visible: License().value == 'PublicDomain'">Public Domain</span>
+            <a target="_blank" data-bind="attr: { href: License().link }, visible: License().value.indexOf('CC') >= 0">
+                <i class="psc-copyright ps-sq-cc-cc" data-bind="visible: License().value.indexOf('CC') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-by" data-bind="visible: License().value.indexOf('Attribution') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-nc" data-bind="visible: License().value.indexOf('NonCommercial') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-nd" data-bind="visible: License().value.indexOf('NoDerivatives') >= 0"></i>
+                <i class="psc-copyright ps-sq-cc-sa" data-bind="visible: License().value.indexOf('ShareAlike') >= 0"></i>
+            </a>
+        </div>
+
+        <div id="metadata-controls" style="display: none;">
+            <div data-bind="visible: CanEdit()">
+                <a id="edit-collection" class="level2" href="#" data-bind="click: OpenEdit">Edit</a>
+                <a id="delete-collection" class="level2" href="#" data-bind="click: OpenDelete">Delete</a>
+                <a id="export-collection" class="level2" href="#" data-bind="click: StartExport, visible: ExportState()==='NotAvailable'">Export</a>
+                <a id="export-collection-failed" class="level2" href="#" data-bind="click: StartExport, visible: ExportState()==='Failed'">Retry Export</a>
+                <a id="exported-collection-download" class="level2" data-bind="attr: { href: ExportDownloadUri }, visible: ExportState()==='Available'" title="Click to download a Zip file containing all the components of your synth.">Download</a>
+                <span id="exported-collection-processing" data-bind="visible: ExportState()==='Processing'" title="Export has been requested. Please check back later to download.">Export requested</span>
+            </div>
+            <div data-bind="visible: !CanEdit()">
+                <a id="report-abuse" class="level2" href="#">Report Abuse</a>
+            </div>
+        </div>
+        <div id="social-controls">
+            <button id="comments-button" title="Comments" data-bind="click: ToggleCommentsPane">
+                <i></i>
+                <h4 id="comments-count" data-bind="text: CommentCount() > 0 ? CommentCount() : ''"></h4>
+            </button>
+            <button id="favorite-button" title="Likes" data-bind="click: FavoriteAction">
+                <i data-bind="css: { 'favorite-button-favorited': $root.isPhotosynthUser && IsFavorited(), 'favorite-button-unfavorited': !$root.isPhotosynthUser || !IsFavorited() }"></i>
+                <h4 id="favorite-count" data-bind="text: FavoriteCount() > 0 ? FavoriteCount() : ''"></h4>
+            </button>
+        </div>
+
+        <div id="comment-pane">
+            <textarea id="comment-entry" required="required" class="psc-glass psc-default-scrollbar" disabled="disabled" style="display: none;"
+                      data-bind="event: { keypress: CommentAction }, attr: { maxlength: Microsoft.Photosynth.RestClient.GlobalConfig.CommentMaxLength() }"></textarea>
+            <div id="comment-overlay">
+                    <div id="comment-signin" style="display: none;">To post a comment you must <a data-bind="attr: { href: $root.signupUrl }">signin</a></div>
+            </div>
+            <div id="comment-status" data-bind="text: CommentStatus"></div>
+            <div id="comments-container" data-bind="foreach: CommentSet">
+                <h6 class="ps-sq-header">
+                    <a data-bind="attr: { href: profileUrl }, text: username"></a>
+                    <b class="psc-default-sprite ps-sq-delete" data-bind="visible: canDelete, click: $parent.DeleteCommentAction"
+                       title="delete comment" tabindex="0"></b>
+                </h6>
+                <div class="ps-sq-body" data-bind="html: comment"></div>
+            </div>
+            <div id="comment-paging-link" data-bind="visible: CommentsHasMore">
+                <a href="#" class="level2" data-bind="click: MoreCommentsAction">Load Earlier Comments</a>
+            </div>
+            <div id="bigplay-button-container">
+                <b class="ps-sq-bigplay"></b>
+            </div>
+        </div>
+    </div>
+
+    <div id="metadata-edit" class="ps-sq-metadata-pane" data-bind="with: Edit" style="display: none">
+        <h2 id="metadata-edit-title" class="psc-default" contenteditable="true"
+            data-bind="editableText: $parent.CollectionTitle.edit, attr: { 'data-maxlength': Microsoft.Photosynth.RestClient.GlobalConfig.MediaTitleMaxLength(), placeholder: 'title your ' + $parent.CollectionTitle() }"></h2>
+        <p class="ps-sq-error" data-bind="text: TitleErrorMessage, visible: !!TitleErrorMessage()"></p>
+        <h3 id="metadata-edit-description" class="psc-default" contenteditable="true"
+            data-bind="editableText: $parent.CollectionDescription.edit, attr: { 'data-maxlength': Microsoft.Photosynth.RestClient.GlobalConfig.MediaDescriptionMaxLength(), placeholder: 'add description' }"></h3>
+        <div id="metadata-starting-image">
+            <p id="metadata-starting-image-label">
+                <a href="#" data-bind="click: SetStartingImage, css: { level2: SetViewerParametersEnabled, level4: !SetViewerParametersEnabled() } ">Set this frame</a> as a starting view.
+            </p>
+        </div>
+        <div id="metadata-map-settings">
+            <p id="metadata-map-settings-label">synth location</p>
+            <img id="metadata-map-tile" data-bind="attr: { src: MapTileUrl }, click: EditGeoTag" />
+            <input id="metadata-map-location-alert" type="checkbox" class="psc-default" data-bind="checked: SaveGeoTag, enable: $parent.GeoTag.edit" /><label for="metadata-map-location-alert">Save the synth's location and show it to viewers</label>
+        </div>
+
+        <div id="metadata-privacy-container" class="psc-default-tooltip-parent">
+            <div id="privacy-settings-tip" class="psc-default-tooltip" data-psc-popped="false">
+                <h6>Listed</h6>
+                <p data-bind="text: Microsoft.Photosynth.Resources.Strings.ListedDescription"></p>
+                <h6><i class="psc-default-sprite ps-sq-unlist"></i> Unlisted</h6>
+                <p data-bind="text: Microsoft.Photosynth.Resources.Strings.UnlistedDescription"></p>
+            </div>
+            <h5>Visibility <b id="privacy-info-button" class="psc-default-sprite ps-sq-info" data-bind="click: TogglePrivacySettingsTip" tabindex="0"></b></h5>
+
+            <input id="privacy-list" name="privacy" class="psc-default" type="radio" value="Public" data-bind="checked: $parent.PrivacyLevel.edit" />
+            <label for="privacy-list">Listed</label>
+            <input id="privacy-unlist" name="privacy" class="psc-default" type="radio" value="Unlisted" data-bind="checked: $parent.PrivacyLevel.edit" />
+            <label for="privacy-unlist">Unlisted</label>
+        </div>
+
+        <div id="metadata-license-container">
+            <h5>Photo Rights</h5>
+            <select id="metadata-license-dropdown" data-bind="options: $parent.Licenses, optionsText: 'friendlyName', value: $parent.License.edit"></select>
+            <p id="metadata-license-cc-link">We recommend a <a href="http://creativecommons.org/licenses/" target="_blank" class="level0">Creative Commons</a> license</p>
+        </div>
+    </div>
+    <b class="psc-default ps-sq-back-to-top" tabindex="0">Back to Top <i class="psc-default-sprite"></i></b>
+    <div id="metadata-bottom-scroll-line"></div>
+</div>
+<div id="metadata-container-overlay">
+    <div id="metadata-edit-buttons" data-bind="with: ViewPage.Edit" style="display: none">
+        <button class="ps-sq-ok psc-default" data-bind="click: Save, enable: !IsSaving() && IsDirty(), text: IsSaving() ? 'Saving...' : 'Save'"></button>
+        <button class="ps-sq-cancel psc-default" data-bind="click: Cancel, enable: !IsSaving()">Cancel</button>
+    </div>
+    <div id="metadata-geo-edit"></div>
+</div>
+<b id="toggle-chrome" tabindex="0"></b>
+    </div>
+    <script type="text/javascript">
+        Microsoft.Photosynth.Analytics.sendEvent = function (name) {};
+    </script>
+
+    <input type="hidden" id="refresh">
+</body>
+
+</html>
