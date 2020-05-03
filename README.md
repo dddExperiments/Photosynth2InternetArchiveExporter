@@ -54,7 +54,17 @@ Edit ```service_worker.js```:
 Create a new Item on the InternetArchive by uploading a dummy empty file.
 Add a Photosynth tag to your item!
 Then on Linux, use the ia commandline.
-ia upload ....
+```
+pip install internetarchive
+ia upload your_item_name js
+ia upload your_item_name css
+ia upload your_item_name images
+ia upload your_item_name *.html
+ia upload your_item_name service_worker.js
+ia upload your_item_name *.entries.json
+ia upload your_item_name *.zip
+[...]
+```
 
 Please **consider [donating](https://archive.org/donate/) to the Internet Archive** if your are using this script.
 
