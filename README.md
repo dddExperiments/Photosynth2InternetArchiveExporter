@@ -52,8 +52,11 @@ Edit ```service_worker.js```:
  static-server has an off-by-one error when requesting 206 partial request :-(.
 
 Create a new Item on the InternetArchive by uploading a dummy empty file.
+
 Add a Photosynth tag to your item!
-Then on Linux, use the ia commandline.
+
+Then on Linux, use the ia commandline tool:
+
 ```
 pip install internetarchive
 ia upload your_item_name js
