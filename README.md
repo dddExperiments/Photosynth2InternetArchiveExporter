@@ -27,7 +27,7 @@ Run ```node 2_produce_gallery_zip_entries.js```
 
 Run ```node 3_produce_gallery_api_results.js```
 
-Run ```4_produce_page_from_template.js```
+Run ```node 4_produce_page_from_template.js```
 
 Move all the files from ```scripts/output``` to the root folder.
 
@@ -43,18 +43,18 @@ Open your browser and go to ```localhost:9080```: you should see your synths the
 
 Edit ```service_worker.js```:
 
-  static-server has an off-by-one error when requesting 206 partial request :-(.
-
 - Uncomment the following line:
  ```  // var end = offset + length - 1; // Internet Archive```
 
 - Comment the following line:
  ```var end = offset + length; // Node static-server```
+ 
+ static-server has an off-by-one error when requesting 206 partial request :-(.
 
 Create a new Item on the InternetArchive by uploading a dummy empty file.
 Add a Photosynth tag to your item!
 Then on Linux, use the ia commandline.
 ia upload ....
 
-Please consider [donating](https://archive.org/donate/) to the Internet Archive if your are using this script.
+Please **consider [donating](https://archive.org/donate/) to the Internet Archive** if your are using this script.
 
