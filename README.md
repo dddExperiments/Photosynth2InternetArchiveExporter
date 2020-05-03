@@ -13,13 +13,13 @@ The result can be seen on the [Internet Archive](https://archive.org/download/ph
 
 ## Produce files:
 
+Place all your Photosynth2 synths at the root folder (where the other existing ps2 ZIP file is).
+
 Install npm (node.js).
 
-Go to scripts/ folder.
+Go to ```scripts``` folder.
 
 Run ```npm install```
-
-Place all your Photosynth2 synths at the root folder (where the other existing ps2 is).
 
 Run ```node 1_produce_view_page_zip_entries.js```
 
@@ -33,19 +33,28 @@ Move all the files from ```scripts/output``` to the root folder.
 
 ## View produced files:
 
-Install node static-server.
+Install node static-server: ```npm -g install static-server```.
 
 Run ```static-server``` from the root folder.
 
-Open your browser and go to ```localhost:9080``` you should see your synth there.
+Open your browser and go to ```localhost:9080```: you should see your synths there.
 
 ## Upload to Internet Archive:
 
-Edit ```service_worker.js```, comment the static-server version and uncomment the InternetArchive version.
+Edit ```service_worker.js```:
 
-(static-server has an off-by-one error when requesting 206 partial request)
+  static-server has an off-by-one error when requesting 206 partial request :-(.
 
-Create a new Item on the InternetArchive using a dummy empty file.
-Please add a Photosynth tag to it!
+- Uncomment the following line:
+ ```  // var end = offset + length - 1; // Internet Archive```
+
+- Comment the following line:
+ ```var end = offset + length; // Node static-server```
+
+Create a new Item on the InternetArchive by uploading a dummy empty file.
+Add a Photosynth tag to your item!
 Then on Linux, use the ia commandline.
 ia upload ....
+
+Please consider [donating](https://archive.org/donate/) to the Internet Archive if your are using this script.
+
